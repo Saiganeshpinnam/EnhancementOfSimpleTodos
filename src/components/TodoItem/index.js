@@ -6,9 +6,7 @@ import './index.css'
 class TodoItem extends Component {
   state = {
     activateEditOption: false,
-    isCheckboxClicked: false,
-    applyCompletionStatus: '',
-    negateSelectionOfCheckbox : ''
+    selectedTodoCheckbox: false,
   }
 
   onDelete = id => {
@@ -40,22 +38,23 @@ class TodoItem extends Component {
   onClickingCheckbox = id => {
     const {applyCompletionStatus} = this.state
     const {todoList} = this.props
-    const selectedTodoCheckbox = todoList.id === id
-    const applyCompletedTodoStatus = selectedTodoCheckbox
-      ? 'apply-completion-status'
-      : ''
-    this.setState(prevState => ({
-      isCheckboxClicked: !prevState.isCheckboxClicked,
-      applyCompletionStatus: applyCompletedTodoStatus,
-      negateSelectionOfCheckbox : !
-    }))
+
+    if (todoList.id === id) {
+      this.setState(prevState => ({
+        selectedTodoCheckbox: !prevState.selectedTodoCheckbox,
+      }))
+    }
   }
 
   render() {
-    const {activateEditOption, applyCompletionStatus} = this.state
+    const {activateEditOption, selectedTodoCheckbox} = this.state
+
     const {todoList, newTodoTitle, updatingTodoId} = this.props
-    //  console.log(todoList.id)
     const {title, id} = todoList
+
+    const applyCompletionStatus = selectedTodoCheckbox
+      ? 'apply-completion-status'
+      : ''
 
     return (
       <li className="eachTodoItem">
