@@ -6,6 +6,13 @@
   list-style-type: none;
   justify-content: space-between;
 }
+.title-edit-container{
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
 .delete-btn {
   height: 35px;
   width: 100px;

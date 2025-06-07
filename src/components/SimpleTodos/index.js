@@ -1,3 +1,5 @@
+import {v4 as uuidv4} from 'uuid'
+
 import {Component} from 'react'
 
 import TodoItem from '../TodoItem'
@@ -44,6 +46,10 @@ const initialTodosList = [
 class SimpleTodos extends Component {
   state = {
     updatedTodoList: initialTodosList,
+    title: '',
+    inputElValue: '',
+    updatingTodoId: 0,
+    newTodoTitle: '',
   }
 
   deleteTodo = id => {
@@ -56,18 +62,93 @@ class SimpleTodos extends Component {
     })
   }
 
+  onAddingNewTodo = event => {
+    this.setState({
+      title: event.target.value,
+      inputElValue: event.target.value,
+    })
+  }
+
+  onClickingAddBtn = () => {
+    const {title} = this.state
+    const newTodo = {
+      id: uuidv4(),
+      title,
+    }
+    this.setState(prevState => ({
+      updatedTodoList: [...prevState.updatedTodoList, newTodo],
+      title: '',
+      inputElValue: '',
+    }))
+  }
+
+  updateTodoNewTitle = () => {
+    const {updatingTodoId, newTodoTitle, updatedTodoList} = this.state
+    console.log(updatingTodoId)
+    console.log(newTodoTitle)
+    const isIdMatched = updatedTodoList.map(
+      eachUserTodo => eachUserTodo.id === updatingTodoId,
+    )
+    if (isIdMatched) {
+      this.setState({
+        title: newTodoTitle,
+      })
+    }
+  }
+
+  getSpecificTodoId = id => {
+    this.setState({
+      updatingTodoId: id,
+    })
+  }
+
+  getUpdatedTitle = updatedTitle => {
+    this.setState({
+      newTodoTitle: updatedTitle,
+    })
+  }
+
   render() {
-    const {updatedTodoList} = this.state
+    const {
+      updatedTodoList,
+      title,
+      inputElValue,
+      updatingTodoId,
+      newTodoTitle,
+    } = this.state
+
+    console.log(updatingTodoId)
+    console.log(newTodoTitle)
+    // console.log(updatedTodoList)
     return (
       <div className="bg-container">
         <div className="todos-container">
           <h1 className="todos-main-heading">Simple Todos</h1>
+          <div className="input-element-add-container">
+            <input
+              type="text"
+              className="input-element"
+              placeholder="Add new Todo.."
+              onChange={this.onAddingNewTodo}
+              value={inputElValue}
+            />
+            <button
+              type="button"
+              className="add-btn"
+              onClick={this.onClickingAddBtn}
+            >
+              Add
+            </button>
+          </div>
           <ul>
             {updatedTodoList.map(eachTodoList => (
               <TodoItem
                 initialTodosList={eachTodoList}
                 key={eachTodoList.id}
                 deleteTodo={this.deleteTodo}
+                getUpdatedTitle={this.getUpdatedTitle}
+                getSpecificTodoId={this.getSpecificTodoId}
+                updateTodoNewTitle={this.updateTodoNewTitle}
               />
             ))}
           </ul>
