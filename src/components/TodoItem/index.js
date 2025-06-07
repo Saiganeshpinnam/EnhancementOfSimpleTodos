@@ -69,6 +69,7 @@ class TodoItem extends Component {
               type="text"
               className="todo-title"
               onChange={this.onEditingTitle}
+              value={title}
             />
           ) : (
             <>

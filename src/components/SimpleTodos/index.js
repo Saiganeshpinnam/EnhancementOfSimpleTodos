@@ -75,6 +75,29 @@ class SimpleTodos extends Component {
       id: uuidv4(),
       title,
     }
+    const inputArray = []
+    const {inputElValue} = this.state
+    for (let eachChar of inputElValue) {
+      inputArray.push(eachChar)
+    }
+    const inputLength = inputArray.length
+    // console.log(inputArray.slice(inputLength-2, inputLength))
+    const lastButELement = inputArray.slice(inputLength - 2, inputLength - 1)
+    //  console.log(lastButELment)
+    const lastELement = inputArray.slice(inputLength - 1, inputLength)
+    //  console.log(lastELment)
+    //  console.log(inputArray.slice(inputLength-2, inputLength))
+    const lastButELementConfirmation = typeof lastButELement === 'object'
+    const lastELementConfirmation = typeof parseInt(lastELement) === 'number'
+    if (lastButELementConfirmation && lastELementConfirmation) {
+      for (let i = 0; i < lastELement; i++) {
+        this.setState(prevState => ({
+          updatedTodoList: [...prevState.updatedTodoList, newTodo],
+          title: '',
+          inputElValue: '',
+        }))
+      }
+    }
     this.setState(prevState => ({
       updatedTodoList: [...prevState.updatedTodoList, newTodo],
       title: '',
