@@ -6,7 +6,9 @@ import './index.css'
 class TodoItem extends Component {
   state = {
     activateEditOption: false,
-    newTodoTitle: '',
+    isCheckboxClicked: false,
+    applyCompletionStatus: '',
+    negateSelectionOfCheckbox : ''
   }
 
   onDelete = id => {
@@ -35,12 +37,33 @@ class TodoItem extends Component {
     getUpdatedTitle(event.target.value)
   }
 
+  onClickingCheckbox = id => {
+    const {applyCompletionStatus} = this.state
+    const {todoList} = this.props
+    const selectedTodoCheckbox = todoList.id === id
+    const applyCompletedTodoStatus = selectedTodoCheckbox
+      ? 'apply-completion-status'
+      : ''
+    this.setState(prevState => ({
+      isCheckboxClicked: !prevState.isCheckboxClicked,
+      applyCompletionStatus: applyCompletedTodoStatus,
+      negateSelectionOfCheckbox : !
+    }))
+  }
+
   render() {
-    const {activateEditOption} = this.state
-    const {initialTodosList} = this.props
-    const {title, id} = initialTodosList
+    const {activateEditOption, applyCompletionStatus} = this.state
+    const {todoList, newTodoTitle, updatingTodoId} = this.props
+    //  console.log(todoList.id)
+    const {title, id} = todoList
+
     return (
       <li className="eachTodoItem">
+        <input
+          type="checkbox"
+          className="checkbox-input"
+          onClick={() => this.onClickingCheckbox(id)}
+        />
         <div className="title-edit-container">
           {activateEditOption ? (
             <input
@@ -49,7 +72,15 @@ class TodoItem extends Component {
               onChange={this.onEditingTitle}
             />
           ) : (
-            <p className="todo-title">{title}</p>
+            <>
+              {todoList.id === updatingTodoId ? (
+                <p className={`todo-title ${applyCompletionStatus}`}>
+                  {newTodoTitle}
+                </p>
+              ) : (
+                <p className={`todo-title ${applyCompletionStatus}`}>{title}</p>
+              )}
+            </>
           )}
           {activateEditOption ? (
             <button

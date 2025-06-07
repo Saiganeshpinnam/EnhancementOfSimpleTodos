@@ -84,41 +84,42 @@ class SimpleTodos extends Component {
 
   updateTodoNewTitle = () => {
     const {updatingTodoId, newTodoTitle, updatedTodoList} = this.state
+    // console.log(newTodoTitle)
     console.log(updatingTodoId)
-    console.log(newTodoTitle)
-    const isIdMatched = updatedTodoList.map(
+    const isIdMatched = updatedTodoList.find(
       eachUserTodo => eachUserTodo.id === updatingTodoId,
     )
+
     if (isIdMatched) {
       this.setState({
-        title: newTodoTitle,
+        newTodoTitle,
       })
     }
   }
 
   getSpecificTodoId = id => {
-    this.setState({
-      updatingTodoId: id,
-    })
+    this.setState(
+      {
+        updatingTodoId: id,
+      },
+      this.updateTodoNewTitle(),
+    )
   }
 
   getUpdatedTitle = updatedTitle => {
-    this.setState({
-      newTodoTitle: updatedTitle,
-    })
+    this.setState(
+      {
+        newTodoTitle: updatedTitle,
+      },
+      this.updateTodoNewTitle(),
+    )
   }
 
   render() {
-    const {
-      updatedTodoList,
-      title,
-      inputElValue,
-      updatingTodoId,
-      newTodoTitle,
-    } = this.state
+    const {updatedTodoList, title, newTodoTitle, updatingTodoId} = this.state
 
-    console.log(updatingTodoId)
-    console.log(newTodoTitle)
+    // console.log(title)
+    // console.log(newTodoTitle)
     // console.log(updatedTodoList)
     return (
       <div className="bg-container">
@@ -130,7 +131,7 @@ class SimpleTodos extends Component {
               className="input-element"
               placeholder="Add new Todo.."
               onChange={this.onAddingNewTodo}
-              value={inputElValue}
+              value={title}
             />
             <button
               type="button"
@@ -143,12 +144,14 @@ class SimpleTodos extends Component {
           <ul>
             {updatedTodoList.map(eachTodoList => (
               <TodoItem
-                initialTodosList={eachTodoList}
+                todoList={eachTodoList}
                 key={eachTodoList.id}
                 deleteTodo={this.deleteTodo}
                 getUpdatedTitle={this.getUpdatedTitle}
                 getSpecificTodoId={this.getSpecificTodoId}
                 updateTodoNewTitle={this.updateTodoNewTitle}
+                newTodoTitle={newTodoTitle}
+                updatingTodoId={updatingTodoId}
               />
             ))}
           </ul>
