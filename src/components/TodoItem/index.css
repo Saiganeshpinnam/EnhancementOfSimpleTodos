@@ -1,0 +1,48 @@
+/* Write your CSS here */
+
+.eachTodoItem {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+  justify-content: space-between;
+}
+.delete-btn {
+  height: 35px;
+  width: 100px;
+  margin: 10px;
+  color: #ff0b37;
+  border-color: #ffc2a0;
+  border-radius: 5px;
+  border-style: solid;
+  font-size: 8px;
+  background-color: #ffffff;
+  outline: none;
+  cursor: pointer;
+}
+.todo-title {
+  font-size: 15px;
+  color: #000000;
+  font-family: 'Roboto';
+}
+@media screen and (max-width: 767px) {
+  .delete-btn {
+    height: 20px;
+    width: 50px;
+    font-size: 9px;
+  }
+  .todo-title {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .delete-btn {
+    height: 42px;
+    width: 92px;
+    font-size: 17px;
+    border-radius: 10px;
+  }
+  .todo-title {
+    font-size: 22px;
+  }
+}
